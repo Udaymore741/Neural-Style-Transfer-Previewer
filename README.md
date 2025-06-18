@@ -1,8 +1,10 @@
 # Neural Style Transfer Previewer
 
-![App Screenshot](./assets/screenshot.png)
 
 A modern web application that allows users to preview neural style transfer effects on their images. Built with **React**, **TypeScript**, **Vite**, and **Tailwind CSS** for a fast and responsive user experience.
+
+![App Screenshot](./assets/screenshot.png)
+
 
 ---
 
@@ -110,9 +112,6 @@ Contributions are welcome! Please open issues or submit pull requests for improv
 
 ---
 
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
 
 ---
 
