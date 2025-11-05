@@ -8,12 +8,12 @@ import LoadingSpinner from './components/LoadingSpinner';
 import LandingPage from './components/LandingPage';
 import { ArtStyle } from './types';
 
-function App() {
-  const [isDark, setIsDark] = useState(false);
+function MainInterface({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => void }) {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<ArtStyle | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [styledImage, setStyledImage] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleImageUpload = (imageDataUrl: string) => {
     setUploadedImage(imageDataUrl);
@@ -29,20 +29,16 @@ function App() {
 
   const handleStyleSelect = async (style: ArtStyle) => {
     if (!uploadedImage) return;
-    
+
     setSelectedStyle(style);
     setIsProcessing(true);
-    
+
     // Simulate processing time
     setTimeout(() => {
       // Mock styled image - in real app this would be from API
       setStyledImage(uploadedImage);
       setIsProcessing(false);
     }, 3000);
-  };
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
   };
 
   return (
@@ -66,18 +62,32 @@ function App() {
                 </p>
               </div>
             </div>
-            
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-lg transition-colors duration-200 ${
-                isDark 
-                  ? 'bg-gray-800 hover:bg-gray-700 text-yellow-400' 
-                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-              }`}
-              aria-label="Toggle theme"
-            >
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
+
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => navigate('/')}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center space-x-2 ${
+                  isDark
+                    ? 'bg-gray-800 hover:bg-gray-700 text-gray-300'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                }`}
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to Home</span>
+              </button>
+
+              <button
+                onClick={toggleTheme}
+                className={`p-2 rounded-lg transition-colors duration-200 ${
+                  isDark
+                    ? 'bg-gray-800 hover:bg-gray-700 text-yellow-400'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                }`}
+                aria-label="Toggle theme"
+              >
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -93,7 +103,7 @@ function App() {
               uploadedImage={uploadedImage}
               isDark={isDark}
             />
-            
+
             {uploadedImage && (
               <StyleGallery
                 selectedStyle={selectedStyle}
@@ -114,7 +124,7 @@ function App() {
                   selectedStyle={selectedStyle}
                   isDark={isDark}
                 />
-                
+
                 {isProcessing && (
                   <LoadingSpinner isDark={isDark} />
                 )}
@@ -135,7 +145,7 @@ function App() {
             <p className={`text-lg mb-8 max-w-2xl mx-auto ${
               isDark ? 'text-gray-300' : 'text-gray-600'
             }`}>
-              Upload an image and watch as our neural style transfer technology applies the distinctive 
+              Upload an image and watch as our neural style transfer technology applies the distinctive
               brushstrokes and techniques of famous artists to create stunning, unique artwork.
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
@@ -143,8 +153,8 @@ function App() {
                 <div
                   key={style}
                   className={`p-4 rounded-lg border-2 border-dashed transition-colors duration-200 ${
-                    isDark 
-                      ? 'border-gray-600 bg-gray-800/50' 
+                    isDark
+                      ? 'border-gray-600 bg-gray-800/50'
                       : 'border-gray-300 bg-white/50'
                   }`}
                 >
@@ -159,6 +169,29 @@ function App() {
         )}
       </main>
     </div>
+  );
+}
+
+function App() {
+  const [isDark, setIsDark] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+  };
+
+  return (
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={<LandingPage isDark={isDark} toggleTheme={toggleTheme} />}
+        />
+        <Route
+          path="/app"
+          element={<MainInterface isDark={isDark} toggleTheme={toggleTheme} />}
+        />
+      </Routes>
+    </Router>
   );
 }
 
