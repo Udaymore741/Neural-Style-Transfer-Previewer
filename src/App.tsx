@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Palette, Moon, Sun } from 'lucide-react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { Palette, Moon, Sun, ArrowLeft } from 'lucide-react';
 import ImageUploader from './components/ImageUploader';
 import ImagePreview from './components/ImagePreview';
 import StyleGallery from './components/StyleGallery';
 import LoadingSpinner from './components/LoadingSpinner';
+import LandingPage from './components/LandingPage';
 import { ArtStyle } from './types';
 
 function App() {
